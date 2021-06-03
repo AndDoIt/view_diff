@@ -31,12 +31,10 @@ import tensorflow as tf
 from tqdm import tqdm, trange
 import codecs
 import sys
-sys.path.append("./TEX/")
+sys.path.append("../TEX/")
 from runCMedTEX import recognize
-import datetime
-import calendar
 
-os.environ["CUDA_VISIBLE_DEVICES"]= '0'
+# os.environ["CUDA_VISIBLE_DEVICES"]= '0'
 
 flags = tf.flags
 
@@ -1107,7 +1105,6 @@ def validate_flags_or_throw(bert_config):
 
 def test_interface(insts):
   #tf.logging.set_verbosity(tf.logging.INFO)
-
   tf.logging.set_verbosity(tf.logging.WARN)
 
   bert_config = modeling.BertConfig.from_json_file(FLAGS.bert_config_file)
@@ -1238,14 +1235,7 @@ def test_interface(insts):
 
         # "edatenum": "2018-12-16\/2018-12-26", "type": "时间段"
         #print(str(date)+" "+pred)
-        if date is None or str(date) == 'None' or str(date) == '':
-          date = str(datetime.date.today())
-        elif type(date) == str:
-          date = date[:10]
-        elif type(date) == datetime.datetime or type(date) == datetime.date:
-          date = "%04d-%02d-%02d".format(date.year, date.month, date.day)
-        recognize_res = recognize(date+" "+pred)
-        # recognize_res = recognize(str(date)+" "+pred)
+        recognize_res = recognize(str(date)+" "+pred)
         print("convert_res", recognize_res)
         if len(recognize_res) == 0:
             continue
